@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.com/izo30/grocery-delivery.svg?token=TBAvqzqhSSPTjTBPv1sK&branch=develop)](https://travis-ci.com/izo30/grocery-delivery)
