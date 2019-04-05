@@ -1,4 +1,4 @@
-#!/home/ubuntu/Documents/mercys_project/grocery_delivery/env/bin/python3
+#!/home/ubuntu/Documents/projects/mercys_project/grocery-delivery/env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
