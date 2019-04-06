@@ -51,3 +51,28 @@ class Customer(DbSetup):
             )
         else:
             return False
+
+    # retrieve customer details
+    def retrieve_customer(self, email, password):
+
+        print("SENT PASSWORD: {}" .format(password))
+
+        customer_exists_query = """SELECT *
+            FROM customers
+            WHERE
+            email='{}'""".format(email)
+        self.cursor.execute(customer_exists_query)
+        customer = self.cursor.fetchone()
+
+        if customer:
+            if Encryption().verify_hash(password, customer[6]):
+                return dict(
+                    id=customer[0],
+                    first_name=customer[1],
+                    last_name=customer[2],
+                    email=customer[3],
+                    phone=customer[4],
+                    location=customer[5]
+                )
+        else:
+            return False

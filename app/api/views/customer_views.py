@@ -24,8 +24,7 @@ class CustomerAccount(Resource):
     def post(self):
         """signup new customer"""
 
-        parser = CustomerFields.signup_parser()
-        args = parser.parse_args()
+        args = CustomerFields.signup_args()
         first_name = args['first_name']
         last_name = args['last_name']
         email = args['email']
@@ -45,7 +44,8 @@ class CustomerAccount(Resource):
 
         created_customer = Customer().create_customer(first_name, last_name,
                                                       email, phone, location,
-                                                      Encryption().generate_hash(password))
+                                                      Encryption()
+                                                      .generate_hash(password))
         if created_customer:
             token = Authorization().encode_auth_token(created_customer['id'],
                                                       email, role)
@@ -58,4 +58,54 @@ class CustomerAccount(Resource):
             return {
                 'status': 'Fail',
                 'error': 'User already exists, signup with another email'
+            }, 403
+
+# customer login
+@api.route('/login')
+class Login(Resource):
+
+    @api.expect(CustomerFields.login_fields)
+    def post(self):
+        """login an existing customer"""
+
+        args = CustomerFields.login_args()
+        email = args['email']
+        password = args['password']
+        role = args['role']
+
+        is_empty = Validations().check_if_empty(dict(email=email,
+                                                     password=password,
+                                                     role=role))
+        if is_empty:
+            return {
+                'status': 'Fail',
+                'error': is_empty
+            }, 400
+
+        if not Validations().validate_email(email):
+            return {
+                'status': 'Fail',
+                'error': 'Invalid email'
+            }, 400
+
+        if not Validations().check_if_role(role):
+            return {
+                'status': 'Fail',
+                'error': 'Invalid role'
+            }, 400
+
+        customer = Customer().retrieve_customer(email, password)
+        if customer:
+            token = Authorization().encode_auth_token(customer['id'],
+                                                      email, role)
+            return {
+                'status': 'Success',
+                'message': 'Logged in successfully',
+                'customer': customer,
+                'auth_token': token.decode('UTF-8')
+            }, 200
+        else:
+            return {
+                'status': 'Fail',
+                'message': 'Wrong email or password'
             }, 403
