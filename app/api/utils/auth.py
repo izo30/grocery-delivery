@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from functools import wraps
 
 from instance.config import secret_key
+from app.api.utils.validations import Validations
 
 
 class Authorization():
@@ -31,7 +32,31 @@ class Authorization():
             return payload
 
         except jwt.ExpiredSignatureError:
-            return jwt.ExpiredSignatureError
+            return "ExpiredSignatureError"
 
         except jwt.InvalidTokenError:
-            return jwt.InvalidTokenError
+            return "InvalidTokenError"
+
+
+#  decorater to check for an authorised customer
+def customer_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        message = None
+
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
+            message = Authorization().decode_auth_token(token)
+
+        if not Validations().token_present(token):
+            return {'message': 'Token is missing.'}, 401
+
+        if Validations().check_token_error(message):
+            return {'message': message}, 401
+
+        if not Validations().check_if_customer(message['role']):
+            return {'message': "You are not a customer"}, 401
+
+        return f(*args, **kwargs)
+    return decorated

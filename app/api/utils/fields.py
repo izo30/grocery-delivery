@@ -41,3 +41,22 @@ class CustomerFields():
         'password': fields.String,
         'role': fields.String
     })
+
+    @staticmethod
+    def edit_args():
+        parser = reqparse.RequestParser()
+        Validations().add_arguments(parser, ['id', 'first_name', 'last_name',
+                                             'email', 'phone', 'location',
+                                             'password', 'role'])
+        return parser.parse_args()
+
+    edit_account_fields = customer_api.model('Edit Account', {
+        'id': fields.String,
+        'first_name': fields.String,
+        'last_name': fields.String,
+        'email': fields.String,
+        'phone': fields.String,
+        'location': fields.String,
+        'password': fields.String,
+        'role': fields.String
+    })

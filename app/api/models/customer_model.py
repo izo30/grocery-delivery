@@ -26,7 +26,9 @@ class Customer(DbSetup):
         customer_exists_query = """SELECT *
             FROM customers
             WHERE
-            email='{}'""".format(email)
+            phone='{}'
+            OR
+            email='{}'""".format(phone, email)
         self.cursor.execute(customer_exists_query)
         customer = self.cursor.fetchone()
 
@@ -47,6 +49,8 @@ class Customer(DbSetup):
                 id=id,
                 first_name=first_name,
                 last_name=last_name,
+                email=email,
+                phone=phone,
                 location=location
             )
         else:
@@ -54,8 +58,6 @@ class Customer(DbSetup):
 
     # retrieve customer details
     def retrieve_customer(self, email, password):
-
-        print("SENT PASSWORD: {}" .format(password))
 
         customer_exists_query = """SELECT *
             FROM customers
@@ -74,5 +76,43 @@ class Customer(DbSetup):
                     phone=customer[4],
                     location=customer[5]
                 )
+        else:
+            return False
+
+    #  edit customer details
+    def edit_customer(self, id, first_name, last_name,
+                      email, phone, location, password):
+        customer_exists_query = """SELECT *
+            FROM customers
+            WHERE
+            id='{}'""".format(id)
+        self.cursor.execute(customer_exists_query)
+        customer = self.cursor.fetchone()
+
+        if customer:
+            id = str(uuid.uuid4())
+
+            edit_customer_query = """UPDATE customers
+                SET first_name='{}',
+                last_name='{}',
+                email='{}',
+                phone='{}',
+                location='{}',
+                password='{}'
+                WHERE
+                id='{}'""".format(first_name, last_name,
+                                  email, phone, location, password,
+                                  id)
+
+            self.cursor.execute(edit_customer_query)
+
+            return dict(
+                id=id,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                phone=phone,
+                location=location
+            )
         else:
             return False
