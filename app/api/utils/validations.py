@@ -64,10 +64,8 @@ class Validations():
             return True
 
     def check_token_error(self, error):
-        if error == jwt.ExpiredSignatureError:
-            return "Signature expired. Please log in again."
-        if error == jwt.InvalidTokenError:
-            return "Invalid token. Please log in again."
+        if error == "ExpiredSignatureError" or error == "InvalidTokenError":
+            return True
 
     def validate_customer_data(self, first_name, last_name, email, phone,
                                location, password, role):

@@ -49,7 +49,7 @@ class DbSetup():
             first_name VARCHAR(25) NOT NULL,
             last_name VARCHAR(25) NOT NULL,
             email VARCHAR(100) UNIQUE NOT NULL,
-            phone INTEGER,
+            phone VARCHAR(20) UNIQUE NOT NULL,
             location VARCHAR(50) NOT NULL,
             password VARCHAR(256) NOT NULL,
             registered_on VARCHAR(50));"""
@@ -73,7 +73,7 @@ class DbSetup():
         self.cursor.execute(create_table_command)
 
     def drop_tables(self):
-        drop_users_command = "DROP TABLE IF EXISTS users CASCADE;"
+        drop_users_command = "DROP TABLE IF EXISTS customers CASCADE;"
         self.cursor.execute(drop_users_command)
 
         drop_categories_command = "DROP TABLE IF EXISTS categories CASCADE;"
