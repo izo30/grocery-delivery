@@ -102,6 +102,31 @@ class CustomerAccount(Resource):
                 'error': 'Customer cannot be edited or does not exist'
             }, 403
 
+    @api.expect(CustomerFields.delete_account_fields)
+    @api.doc(security='apikey')
+    @customer_required
+    def delete(self):
+
+        args = CustomerFields.delete_args()
+        id = args['id']
+
+        if not id:
+            return {
+                'status': 'Fail',
+                'error': 'ID should not be empty'
+            }, 400
+
+        if Customer().delete_customer(id):
+            return {
+                'status': 'Success',
+                'message': 'Deleted successfully'
+            }, 201
+        else:
+            return {
+                'status': 'Fail',
+                'error': 'Customer cannot be deleted or does not exist'
+            }, 403
+
 # customer login
 @api.route('/login')
 class Login(Resource):

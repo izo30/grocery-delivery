@@ -116,3 +116,16 @@ class Customer(DbSetup):
             )
         else:
             return False
+
+    #  delete customer
+    def delete_customer(self, id):
+
+        delete_customer_query = """DELETE
+        FROM customers
+        WHERE
+        id='{}'""".format(id)
+        self.cursor.execute(delete_customer_query)
+        row_deleted = self.cursor.rowcount
+
+        if row_deleted:
+            return True
