@@ -6,12 +6,10 @@
 
 import psycopg2
 import uuid
-import os
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from instance.db_config import DbSetup
 from app.api.utils.encryption import Encryption
-from app.api.utils.auth import Authorization
 
 
 class Customer(DbSetup):
@@ -116,3 +114,16 @@ class Customer(DbSetup):
             )
         else:
             return False
+
+    #  delete customer
+    def delete_customer(self, id):
+
+        delete_customer_query = """DELETE
+        FROM customers
+        WHERE
+        id='{}'""".format(id)
+        self.cursor.execute(delete_customer_query)
+        row_deleted = self.cursor.rowcount
+
+        if row_deleted:
+            return True
