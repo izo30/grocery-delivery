@@ -1,5 +1,6 @@
-# vscode file
+# vscode file and folder
 .vscode
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

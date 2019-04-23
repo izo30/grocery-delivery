@@ -6,15 +6,13 @@
 #  2. Login
 #       - post
 
-from flask import Flask, request, jsonify, Blueprint, json, make_response
-from flask_restplus import Resource, reqparse, Api, Namespace, fields
+from flask_restplus import Resource
 
 from app.api.models.customer_model import Customer
 from app.api.utils.validations import Validations
 from app.api.utils.auth import Authorization, customer_required
 from app.api.utils.encryption import Encryption
 from app.api.utils.fields import customer_api as api, CustomerFields
-
 
 # customer account endpoints
 @api.route('/account')
@@ -33,9 +31,11 @@ class CustomerAccount(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_customer_data(first_name, last_name,
-                                                        email, phone, location,
-                                                        password, role)
+        validate = Validations().validate_registration_data(first_name,
+                                                            last_name,
+                                                            email, phone,
+                                                            password,
+                                                            role, location)
         if validate:
             return {
                 'status': 'Fail',
@@ -77,9 +77,11 @@ class CustomerAccount(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_customer_data(first_name, last_name,
-                                                        email, phone, location,
-                                                        password, role)
+        validate = Validations().validate_registration_data(first_name,
+                                                            last_name,
+                                                            email, phone,
+                                                            location,
+                                                            password, role)
         if validate:
             return {
                 'status': 'Fail',

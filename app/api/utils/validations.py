@@ -36,9 +36,15 @@ class Validations():
         is_empty = False
         is_empty_message = {}
         for key, value in fields.items():
-            if not value:
+            if not value and key is not "location":
                 is_empty = True
                 is_empty_message[key] = "{} should not be empty".format(key)
+
+            #  check whether the role is customer so as to validate location
+            else:
+                if fields['role'] is "customer":
+                    is_empty = True
+                    is_empty_message[key] = "{} should not be empty".format(key)
         if is_empty:
             return is_empty_message
         return is_empty
@@ -67,8 +73,8 @@ class Validations():
         if error == "ExpiredSignatureError" or error == "InvalidTokenError":
             return True
 
-    def validate_customer_data(self, first_name, last_name, email, phone,
-                               location, password, role):
+    def validate_registration_data(self, first_name, last_name, email, phone,
+                                   password, role, location=None):
 
         error_response = {}
         error = False
@@ -98,15 +104,16 @@ class Validations():
         if not re.match(r"^([\s\d]+)$", phone):
             error = True
             error_response['phone'] = "Invalid phone number"
-        if not self.validate_name(location.replace(" ", "")):
-            error = True
-            error_response['location'] = "location should contain letters only"
         if not self.validate_password(password):
             error = True
             error_response['password'] = "The password should contain a small and a capital letter, a number and a special character"
         if not self.check_if_role(role):
             error = True
             error_response['role'] = "Role should be admin or customer"
+        if role is 'customer':
+            if not self.validate_name(location):
+                error = True
+                error_response['last_name'] = "Location should contain letters only"
 
         if error:
             return dict(error=error_response)

@@ -6,12 +6,10 @@
 
 import psycopg2
 import uuid
-import os
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from instance.db_config import DbSetup
 from app.api.utils.encryption import Encryption
-from app.api.utils.auth import Authorization
 
 
 class Customer(DbSetup):

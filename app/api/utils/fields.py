@@ -70,3 +70,26 @@ class CustomerFields():
     delete_account_fields = customer_api.model('Delete Account', {
         'id': fields.String
     })
+
+
+admin_api = Namespace('Admin Endpoints', description='A collection of\
+                          admin endpoints')
+
+
+class AdminFields():
+    @staticmethod
+    def create_account_args():
+        parser = reqparse.RequestParser()
+        Validations().add_arguments(parser, ['first_name', 'last_name',
+                                             'email', 'phone', 'password',
+                                             'role'])
+        return parser.parse_args()
+
+    create_account_fields = admin_api.model('Create Admin Account', {
+        'first_name': fields.String,
+        'last_name': fields.String,
+        'email': fields.String,
+        'phone': fields.String,
+        'password': fields.String,
+        'role': fields.String
+    })
