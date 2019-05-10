@@ -62,3 +62,53 @@ class AdminViews(Resource):
                 'status': 'Fail',
                 'error': 'Email or phone already exists'
             }, 403
+
+
+# admin Login endpoint
+@api.route('/login')
+class AdminLogin(Resource):
+    @api.expect(AdminFields.login_fields)
+    def post(self):
+        """login admin"""
+
+        args = AdminFields.login_args()
+        email = args['email']
+        password = args['password']
+        role = args['role']
+
+        is_empty = Validations().check_if_empty(dict(email=email,
+                                                     password=password,
+                                                     role=role))
+        if is_empty:
+            return {
+                'status': 'Fail',
+                'error': is_empty
+            }, 400
+
+        if not Validations().validate_email(email):
+            return {
+                'status': 'Fail',
+                'error': 'Invalid email'
+            }, 400
+
+        if not Validations().check_if_role(role):
+            return {
+                'status': 'Fail',
+                'error': 'Invalid role'
+            }, 400
+
+        admin = Admin().retrieve_admin_login(email, password)
+        if admin:
+            token = Authorization().encode_auth_token(admin['id'],
+                                                      email, role)
+            return {
+                'status': 'Success',
+                'message': 'Logged in successfully',
+                'admin': admin,
+                'auth_token': token.decode('UTF-8')
+            }, 200
+        else:
+            return {
+                'status': 'Fail',
+                'message': 'Wrong email or password'
+            }, 403
