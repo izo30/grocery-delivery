@@ -104,6 +104,32 @@ class AdminViews(Resource):
                 'error': 'Admin cannot be edited or does not exist'
             }, 403
 
+    @api.expect(AdminFields.delete_account_fields)
+    @api.doc(security='apikey')
+    @admin_required
+    def delete(self):
+        """delete an existing admin"""
+
+        args = AdminFields.delete_args()
+        id = args['id']
+
+        if not id:
+            return {
+                'status': 'Fail',
+                'error': 'ID should not be empty'
+            }, 400
+
+        if Admin().delete_admin(id):
+            return {
+                'status': 'Success',
+                'message': 'Deleted successfully'
+            }, 201
+        else:
+            return {
+                'status': 'Fail',
+                'error': 'Admin cannot be deleted or does not exist'
+            }, 403
+
 
 # admin Login endpoint
 @api.route('/login')

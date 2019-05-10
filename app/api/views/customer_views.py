@@ -109,6 +109,7 @@ class CustomerAccount(Resource):
     @api.doc(security='apikey')
     @customer_required
     def delete(self):
+        """delete an existing customer"""
 
         args = CustomerFields.delete_args()
         id = args['id']
