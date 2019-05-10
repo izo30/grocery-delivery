@@ -123,3 +123,13 @@ class AdminFields():
         'password': fields.String,
         'role': fields.String
     })
+
+    @staticmethod
+    def delete_args():
+        parser = reqparse.RequestParser()
+        Validations().add_arguments(parser, ['id'])
+        return parser.parse_args()
+
+    delete_account_fields = admin_api.model('Delete Admin Account', {
+        'id': fields.String
+    })

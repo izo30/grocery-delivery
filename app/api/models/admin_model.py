@@ -108,3 +108,16 @@ class Admin(DbSetup):
             )
         else:
             return False
+
+    #  delete admin
+    def delete_admin(self, id):
+
+        delete_admin_query = """DELETE
+        FROM admin
+        WHERE
+        id='{}'""".format(id)
+        self.cursor.execute(delete_admin_query)
+        row_deleted = self.cursor.rowcount
+
+        if row_deleted:
+            return True
