@@ -93,3 +93,15 @@ class AdminFields():
         'password': fields.String,
         'role': fields.String
     })
+
+    @staticmethod
+    def login_args():
+        parser = reqparse.RequestParser()
+        Validations().add_arguments(parser, ['email', 'password', 'role'])
+        return parser.parse_args()
+
+    login_fields = admin_api.model('Login', {
+        'email': fields.String,
+        'password': fields.String,
+        'role': fields.String
+    })

@@ -51,3 +51,25 @@ class Admin(DbSetup):
             )
         else:
             return False
+
+    #  retrieve admin details for login
+    def retrieve_admin_login(self, email, password):
+
+        admin_exists_query = """SELECT *
+            FROM admin
+            WHERE
+            email='{}'""".format(email)
+        self.cursor.execute(admin_exists_query)
+        admin = self.cursor.fetchone()
+
+        if admin:
+            if Encryption().verify_hash(password, admin[5]):
+                return dict(
+                    id=admin[0],
+                    first_name=admin[1],
+                    last_name=admin[2],
+                    email=admin[3],
+                    phone=admin[4]
+                )
+        else:
+            return False
