@@ -14,6 +14,7 @@ from app.api.utils.auth import Authorization, customer_required
 from app.api.utils.encryption import Encryption
 from app.api.utils.fields import customer_api as api, CustomerFields
 
+
 # customer account endpoints
 @api.route('/account')
 class CustomerAccount(Resource):
@@ -80,8 +81,8 @@ class CustomerAccount(Resource):
         validate = Validations().validate_registration_data(first_name,
                                                             last_name,
                                                             email, phone,
-                                                            location,
-                                                            password, role)
+                                                            password,
+                                                            role, location)
         if validate:
             return {
                 'status': 'Fail',

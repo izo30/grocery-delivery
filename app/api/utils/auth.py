@@ -60,3 +60,27 @@ def customer_required(f):
 
         return f(*args, **kwargs)
     return decorated
+
+
+#  decorater to check for an authorised admin
+def admin_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        message = None
+
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
+            message = Authorization().decode_auth_token(token)
+
+        if not Validations().token_present(token):
+            return {'message': 'Token is missing.'}, 401
+
+        if Validations().check_token_error(message):
+            return {'message': message}, 401
+
+        if not Validations().check_if_admin(message['role']):
+            return {'message': "You are not an admin"}, 401
+
+        return f(*args, **kwargs)
+    return decorated

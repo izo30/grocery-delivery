@@ -73,3 +73,38 @@ class Admin(DbSetup):
                 )
         else:
             return False
+
+    #  edit admin details
+    def edit_admin(self, id, first_name, last_name,
+                      email, phone, password):
+        admin_exists_query = """SELECT *
+            FROM admin
+            WHERE
+            id='{}'""".format(id)
+        self.cursor.execute(admin_exists_query)
+        admin = self.cursor.fetchone()
+
+        if admin:
+
+            edit_admin_query = """UPDATE admin
+                SET first_name='{}',
+                last_name='{}',
+                email='{}',
+                phone='{}',
+                password='{}'
+                WHERE
+                id='{}'""".format(first_name, last_name,
+                                  email, phone, password,
+                                  id)
+
+            self.cursor.execute(edit_admin_query)
+
+            return dict(
+                id=id,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                phone=phone
+            )
+        else:
+            return False
