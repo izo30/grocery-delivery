@@ -8,7 +8,7 @@ from flask_restplus import Resource
 
 from app.api.models.admin_model import Admin
 from app.api.utils.validations import Validations
-from app.api.utils.auth import Authorization
+from app.api.utils.auth import Authorization, admin_required
 from app.api.utils.validations import Validations
 from app.api.utils.fields import admin_api as api, AdminFields
 from app.api.utils.encryption import Encryption
@@ -61,6 +61,47 @@ class AdminViews(Resource):
             return {
                 'status': 'Fail',
                 'error': 'Email or phone already exists'
+            }, 403
+
+    @api.expect(AdminFields.edit_account_fields)
+    @api.doc(security='apikey')
+    @admin_required
+    def patch(self):
+        """edit existing customer  account details"""
+
+        args = AdminFields.edit_args()
+        id = args['id']
+        first_name = args['first_name']
+        last_name = args['last_name']
+        email = args['email']
+        phone = args['phone']
+        password = args['password']
+        role = args['role']
+
+        validate = Validations().validate_registration_data(first_name,
+                                                            last_name,
+                                                            email, phone,
+                                                            password, role)
+        if validate:
+            return {
+                'status': 'Fail',
+                'error': validate['error']
+            }, 400
+
+        edited_admin = Admin().edit_admin(id, first_name, last_name,
+                                          email, phone,
+                                          Encryption()
+                                          .generate_hash(password))
+        if edited_admin:
+            return {
+                'status': 'Success',
+                'message': 'Edited successfully',
+                'customer': edited_admin
+            }, 201
+        else:
+            return {
+                'status': 'Fail',
+                'error': 'Admin cannot be edited or does not exist'
             }, 403
 
 

@@ -20,7 +20,7 @@ class CustomerFields():
                                              'password', 'role'])
         return parser.parse_args()
 
-    signup_fields = customer_api.model('Signup', {
+    signup_fields = customer_api.model('Signup Customer', {
         'first_name': fields.String,
         'last_name': fields.String,
         'email': fields.String,
@@ -36,7 +36,7 @@ class CustomerFields():
         Validations().add_arguments(parser, ['email', 'password', 'role'])
         return parser.parse_args()
 
-    login_fields = customer_api.model('Login', {
+    login_fields = customer_api.model('Login Customer', {
         'email': fields.String,
         'password': fields.String,
         'role': fields.String
@@ -50,7 +50,7 @@ class CustomerFields():
                                              'password', 'role'])
         return parser.parse_args()
 
-    edit_account_fields = customer_api.model('Edit Account', {
+    edit_account_fields = customer_api.model('Edit Customer Account', {
         'id': fields.String,
         'first_name': fields.String,
         'last_name': fields.String,
@@ -67,7 +67,7 @@ class CustomerFields():
         Validations().add_arguments(parser, ['id'])
         return parser.parse_args()
 
-    delete_account_fields = customer_api.model('Delete Account', {
+    delete_account_fields = customer_api.model('Delete Customer Account', {
         'id': fields.String
     })
 
@@ -100,8 +100,26 @@ class AdminFields():
         Validations().add_arguments(parser, ['email', 'password', 'role'])
         return parser.parse_args()
 
-    login_fields = admin_api.model('Login', {
+    login_fields = admin_api.model('Login Admin', {
         'email': fields.String,
+        'password': fields.String,
+        'role': fields.String
+    })
+
+    @staticmethod
+    def edit_args():
+        parser = reqparse.RequestParser()
+        Validations().add_arguments(parser, ['id', 'first_name', 'last_name',
+                                             'email', 'phone',
+                                             'password', 'role'])
+        return parser.parse_args()
+
+    edit_account_fields = admin_api.model('Edit Admin Account', {
+        'id': fields.String,
+        'first_name': fields.String,
+        'last_name': fields.String,
+        'email': fields.String,
+        'phone': fields.String,
         'password': fields.String,
         'role': fields.String
     })
