@@ -21,7 +21,7 @@ class CustomerAccount(Resource):
 
     @api.expect(CustomerFields.signup_fields)
     def post(self):
-        """signup new customer"""
+        """Signup new customer"""
 
         args = CustomerFields.signup_args()
         first_name = args['first_name']
@@ -32,7 +32,7 @@ class CustomerAccount(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_registration_data(first_name,
+        validate = Validations().validate_customer_registration_data(first_name,
                                                             last_name,
                                                             email, phone,
                                                             password,
@@ -66,7 +66,7 @@ class CustomerAccount(Resource):
     @api.doc(security='apikey')
     @customer_required
     def patch(self):
-        """edit existing customer  account details"""
+        """Edit existing customer  account details"""
 
         args = CustomerFields.edit_args()
         id = args['id']
@@ -78,7 +78,7 @@ class CustomerAccount(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_registration_data(first_name,
+        validate = Validations().validate_customer_registration_data(first_name,
                                                             last_name,
                                                             email, phone,
                                                             password,
@@ -109,7 +109,7 @@ class CustomerAccount(Resource):
     @api.doc(security='apikey')
     @customer_required
     def delete(self):
-        """delete an existing customer"""
+        """Delete an existing customer"""
 
         args = CustomerFields.delete_args()
         id = args['id']
@@ -131,13 +131,14 @@ class CustomerAccount(Resource):
                 'error': 'Customer cannot be deleted or does not exist'
             }, 403
 
+
 # customer login
 @api.route('/login')
 class Login(Resource):
 
     @api.expect(CustomerFields.login_fields)
     def post(self):
-        """login an existing customer"""
+        """Login an existing customer"""
 
         args = CustomerFields.login_args()
         email = args['email']

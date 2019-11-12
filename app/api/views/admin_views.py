@@ -20,7 +20,7 @@ class AdminViews(Resource):
 
     @api.expect(AdminFields.create_account_fields)
     def post(self):
-        """create new admin"""
+        """Create new admin"""
 
         args = AdminFields.create_account_args()
         first_name = args['first_name']
@@ -30,7 +30,7 @@ class AdminViews(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_registration_data(first_name,
+        validate = Validations().validate_admin_registration_data(first_name,
                                                             last_name,
                                                             email,
                                                             phone,
@@ -67,7 +67,7 @@ class AdminViews(Resource):
     @api.doc(security='apikey')
     @admin_required
     def patch(self):
-        """edit existing customer  account details"""
+        """Edit existing admin account details"""
 
         args = AdminFields.edit_args()
         id = args['id']
@@ -78,7 +78,7 @@ class AdminViews(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_registration_data(first_name,
+        validate = Validations().validate_admin_registration_data(first_name,
                                                             last_name,
                                                             email, phone,
                                                             password, role)
@@ -108,7 +108,7 @@ class AdminViews(Resource):
     @api.doc(security='apikey')
     @admin_required
     def delete(self):
-        """delete an existing admin"""
+        """Delete an existing admin"""
 
         args = AdminFields.delete_args()
         id = args['id']
@@ -136,7 +136,7 @@ class AdminViews(Resource):
 class AdminLogin(Resource):
     @api.expect(AdminFields.login_fields)
     def post(self):
-        """login admin"""
+        """Login admin"""
 
         args = AdminFields.login_args()
         email = args['email']

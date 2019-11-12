@@ -88,8 +88,7 @@ class Customer(DbSetup):
         customer = self.cursor.fetchone()
 
         if customer:
-            id = str(uuid.uuid4())
-
+            
             edit_customer_query = """UPDATE customers
                 SET first_name='{}',
                 last_name='{}',
