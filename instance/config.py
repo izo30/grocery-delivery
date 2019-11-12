@@ -36,6 +36,7 @@ class Production(Config):
     DB_HOST = os.getenv("PROD_DB_HOST")
     DB_NAME = os.getenv("PROD_DB_NAME")
 
+
 app_config = {
     'development': Development(),
     'testing': Testing(),

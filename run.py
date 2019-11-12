@@ -3,7 +3,7 @@
 from app import create_app
 from instance.db_config import DbSetup
 
-app = create_app('development')
+app = create_app('production')
 
 db_setup = DbSetup(app)
 db_setup.create_customers_table()

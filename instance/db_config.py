@@ -22,8 +22,6 @@ class DbSetup():
         self.db_password = current_context.config['DB_PASSWORD']
         self.db_host = current_context.config['DB_HOST']
 
-        print("DB_NAME : {}\nDB_USER : {}\nDB_PASSWORD : {}\nDB_HOST : {}" .format(self.db_name,self.db_user,self.db_password,self.db_host))
-
         self.connection = psycopg2.connect(
             database=self.db_name,
             user=self.db_user,
