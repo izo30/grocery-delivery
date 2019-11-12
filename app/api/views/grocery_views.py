@@ -78,6 +78,53 @@ class GroceryViews(Resource):
                 'error': 'No grocery found'
             }, 404
 
+    @api.expect(GroceriesFields.edit_grocery_fields)
+    @api.doc(security='apikey')
+    @admin_required
+    def patch(self):
+        """edit existing grocery item details"""
+
+        args = GroceriesFields.edit_grocery_args()
+        id = args['id']
+        category_id = args['category_id']
+        name = args['name']
+        price = args['price']
+        quantity = args['quantity']
+
+        if not id:
+            return {
+                'status': 'Fail',
+                'error': 'ID cannot be empty'
+            }, 400
+
+        validate = Validations().validate_grocery_data(category_id,
+                                                       name,
+                                                       price,
+                                                       quantity)
+
+        if validate:
+            return {
+                'status': 'Fail',
+                'error': validate['error']
+            }, 400
+
+        edited_grocery = Grocery().edit_grocery(id,
+                                                category_id,
+                                                name,
+                                                price,
+                                                quantity)
+        if edited_grocery:
+            return {
+                'status': 'Success',
+                'message': 'Edited successfully',
+                'customer': edited_grocery
+            }, 201
+        else:
+            return {
+                'status': 'Fail',
+                'error': 'Grocery cannot be edited or does not exist'
+            }, 403
+
 # single grocery endpoints
 @api.route('/<string:grocery_id>')
 class SingleGroceryViews(Resource):
