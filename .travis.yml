@@ -8,6 +8,12 @@ install:
 before_script:
   - psql -c 'create database grocerydeliverytest;' -U postgres
 
+services:
+  - postgresql
+
+addons:
+  postgresql: "10.6"
+
 script:    
   - pytest --cov=app/api
 
