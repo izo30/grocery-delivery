@@ -131,6 +131,7 @@ class CustomerAccount(Resource):
                 'error': 'Customer cannot be deleted or does not exist'
             }, 403
 
+
 # customer login
 @api.route('/login')
 class Login(Resource):
