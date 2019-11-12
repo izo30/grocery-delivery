@@ -21,7 +21,7 @@ class GroceryViews(Resource):
     @api.doc(security='apikey')
     @admin_required
     def post(self):
-        """create new grocery"""
+        """Create new grocery"""
 
         args = GroceriesFields.create_grocery_args()
         category_id = args['category_id']
@@ -64,7 +64,7 @@ class GroceryViews(Resource):
             }, 403
 
     def get(self):
-        """get all groceries"""
+        """Get all groceries"""
         groceries = Grocery().retrieve_all_groceries()
 
         if groceries:
@@ -82,7 +82,7 @@ class GroceryViews(Resource):
     @api.doc(security='apikey')
     @admin_required
     def patch(self):
-        """edit existing grocery item details"""
+        """Edit existing grocery item details"""
 
         args = GroceriesFields.edit_grocery_args()
         id = args['id']
@@ -130,7 +130,7 @@ class GroceryViews(Resource):
 class SingleGroceryViews(Resource):
 
     def get(self, grocery_id):
-        """fetch a single grocery item"""
+        """Fetch a single grocery item"""
 
         if not grocery_id:
             return {
@@ -154,7 +154,7 @@ class SingleGroceryViews(Resource):
     @api.doc(security='apikey')
     @admin_required
     def delete(self, grocery_id):
-        """delete an existing grocery"""
+        """Delete an existing grocery"""
 
         if not grocery_id:
             return {
@@ -178,7 +178,7 @@ class SingleGroceryViews(Resource):
 class CategoryViews(Resource):
 
     def get(self, category_id):
-        """fetch groceries for a specific category"""
+        """Fetch groceries for a specific category"""
 
         if not category_id:
             return {

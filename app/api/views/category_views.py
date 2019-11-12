@@ -19,7 +19,7 @@ class CategoryViews(Resource):
     @api.doc(security='apikey')
     @admin_required
     def post(self):
-        """create new category"""
+        """Create new category"""
 
         args = CategoriesFields.create_category_args()
         name = args['name']
@@ -48,7 +48,7 @@ class CategoryViews(Resource):
             }, 403
 
     def get(self):
-        """get all categories"""
+        """Get all categories"""
         categories = Category().retrieve_all_categories()
 
         if categories:
@@ -66,7 +66,7 @@ class CategoryViews(Resource):
     @api.doc(security='apikey')
     @admin_required
     def delete(self):
-        """delete an existing category"""
+        """Delete an existing category"""
 
         args = CategoriesFields.delete_args()
         id = args['id']
