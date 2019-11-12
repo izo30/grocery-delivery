@@ -151,6 +151,28 @@ class SingleGroceryViews(Resource):
                 'error': 'Category cannot be deleted or does not exist'
             }, 404
 
+    @api.doc(security='apikey')
+    @admin_required
+    def delete(self, grocery_id):
+        """delete an existing grocery"""
+
+        if not grocery_id:
+            return {
+                'status': 'Fail',
+                'error': 'Grocery id should not be empty'
+            }, 400
+
+        if Grocery().delete_grocery(grocery_id):
+            return {
+                'status': 'Success',
+                'message': 'Deleted successfully'
+            }, 201
+        else:
+            return {
+                'status': 'Fail',
+                'error': 'Grocery cannot be deleted or does not exist'
+            }, 404
+
 # category groceries endpoints
 @api.route('/category/<string:category_id>')
 class CategoryViews(Resource):
