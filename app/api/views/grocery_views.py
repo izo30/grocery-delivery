@@ -13,7 +13,6 @@ from app.api.utils.auth import Authorization, admin_required
 from app.api.utils.fields import groceries_api as api, GroceriesFields
 
 
-
 # grocery endpoints
 @api.route('')
 class GroceryViews(Resource):
@@ -63,3 +62,18 @@ class GroceryViews(Resource):
                 'status': 'Fail',
                 'error': 'Grocery already exists'
             }, 403
+
+    def get(self):
+        """get all groceries"""
+        groceries = Grocery().retrieve_all_groceries()
+
+        if groceries:
+            return {
+                'status': 'Success',
+                'groceries': groceries
+            }, 200
+        else:
+            return {
+                'status': 'Fail',
+                'error': 'No grocery found'
+            }, 404
