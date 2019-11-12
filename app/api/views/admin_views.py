@@ -30,7 +30,7 @@ class AdminViews(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_registration_data(first_name,
+        validate = Validations().validate_admin_registration_data(first_name,
                                                             last_name,
                                                             email,
                                                             phone,
@@ -67,7 +67,7 @@ class AdminViews(Resource):
     @api.doc(security='apikey')
     @admin_required
     def patch(self):
-        """edit existing customer  account details"""
+        """edit existing admin account details"""
 
         args = AdminFields.edit_args()
         id = args['id']
@@ -78,7 +78,7 @@ class AdminViews(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_registration_data(first_name,
+        validate = Validations().validate_admin_registration_data(first_name,
                                                             last_name,
                                                             email, phone,
                                                             password, role)

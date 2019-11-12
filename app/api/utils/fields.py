@@ -133,3 +133,64 @@ class AdminFields():
     delete_account_fields = admin_api.model('Delete Admin Account', {
         'id': fields.String
     })
+
+
+categories_api = Namespace('Categories Endpoints', description='A collection of\
+                          categories endpoints')
+
+
+class CategoriesFields():
+    @staticmethod
+    def create_category_args():
+        parser = reqparse.RequestParser()
+        Validations().add_arguments(parser, ['name'])
+        return parser.parse_args()
+
+    create_category_fields = categories_api.model('Create Category', {
+        'name': fields.String
+    })
+
+    @staticmethod
+    def delete_args():
+        parser = reqparse.RequestParser()
+        Validations().add_arguments(parser, ['id'])
+        return parser.parse_args()
+
+    delete_category_fields = categories_api.model('Delete Category', {
+        'id': fields.String
+    })
+
+
+groceries_api = Namespace('Groceries Endpoints', description='A collection of\
+                          groceries endpoints')
+
+
+class GroceriesFields():
+    @staticmethod
+    def create_grocery_args():
+        parser = reqparse.RequestParser()
+        Validations().add_arguments(parser, ['category_id', 'name', 'price', 
+                                             'quantity'])
+        return parser.parse_args()
+
+    create_grocery_fields = groceries_api.model('Create Grocery', {
+        'category_id': fields.String,
+        'name': fields.String,
+        'price': fields.String,
+        'quantity': fields.String
+    })
+
+    @staticmethod
+    def edit_grocery_args():
+        parser = reqparse.RequestParser()
+        Validations().add_arguments(parser, ['id', 'category_id', 'name', 
+                                             'price', 'quantity'])
+        return parser.parse_args()
+
+    edit_grocery_fields = groceries_api.model('Create Grocery', {
+        'id': fields.String,
+        'category_id': fields.String,
+        'name': fields.String,
+        'price': fields.String,
+        'quantity': fields.String
+    })

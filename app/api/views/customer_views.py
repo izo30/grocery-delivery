@@ -32,7 +32,7 @@ class CustomerAccount(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_registration_data(first_name,
+        validate = Validations().validate_customer_registration_data(first_name,
                                                             last_name,
                                                             email, phone,
                                                             password,
@@ -78,7 +78,7 @@ class CustomerAccount(Resource):
         password = args['password']
         role = args['role']
 
-        validate = Validations().validate_registration_data(first_name,
+        validate = Validations().validate_customer_registration_data(first_name,
                                                             last_name,
                                                             email, phone,
                                                             password,

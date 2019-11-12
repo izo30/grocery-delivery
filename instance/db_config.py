@@ -58,8 +58,8 @@ class DbSetup():
     def create_categories_table(self):
         create_table_command = """CREATE TABLE IF NOT EXISTS categories(
             id VARCHAR(50) PRIMARY KEY,
-            category_id VARCHAR(50) REFERENCES categories(id),
-            name VARCHAR(50) NOT NULL);"""
+            name VARCHAR(50) NOT NULL,
+            created_on VARCHAR(50));"""
         self.cursor.execute(create_table_command)
 
     def create_groceries_table(self):
