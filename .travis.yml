@@ -12,7 +12,7 @@ services:
   - postgresql
 
 addons:
-  postgresql: "10.6"
+  postgresql: "10"
 
 script:    
   - pytest --cov=app/api
