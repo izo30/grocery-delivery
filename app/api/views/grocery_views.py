@@ -77,3 +77,55 @@ class GroceryViews(Resource):
                 'status': 'Fail',
                 'error': 'No grocery found'
             }, 404
+
+# single grocery endpoints
+@api.route('/<string:grocery_id>')
+class SingleGroceryViews(Resource):
+
+    def get(self, grocery_id):
+        """fetch a single grocery item"""
+
+        if not grocery_id:
+            return {
+                'status': 'Fail',
+                'error': 'Grocery id cannot be empty'
+            }, 400
+
+        grocery = Grocery().retrieve_single_grocery(grocery_id)
+
+        if grocery:
+            return {
+                'status': 'Success',
+                'grocery': grocery
+            }, 200
+        else:
+            return {
+                'status': 'Fail',
+                'error': 'Category cannot be deleted or does not exist'
+            }, 404
+
+# category groceries endpoints
+@api.route('/category/<string:category_id>')
+class CategoryViews(Resource):
+
+    def get(self, category_id):
+        """fetch groceries for a specific category"""
+
+        if not category_id:
+            return {
+                'status': 'Fail',
+                'error': 'Category id cannot be empty'
+            }, 400
+
+        groceries = Grocery().retrieve_category_groceries(category_id)
+
+        if groceries:
+            return {
+                'status': 'Success',
+                'groceries': groceries
+            }, 200
+        else:
+            return {
+                'status': 'Fail',
+                'error': 'No grocery found'
+            }, 404
