@@ -17,14 +17,12 @@ class Authorization():
     #  generate authentication token
     def encode_auth_token(self, id, email, role):
         try:
-            print("TOKEN id : {}\n TOKEN email : {}\nTOKEN role : {}" .format(id, email, role))
             token = jwt.encode({'id': id, 'user': email, 'role': role,
                                'exp': datetime.utcnow() + timedelta(days=365)},
                                secret_key)
 
             return token
         except Exception as e:
-            print("TOKEN ERROR : {}" .format(e))
             return e
 
     #  decode authentication token

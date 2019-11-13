@@ -167,11 +167,9 @@ class Login(Resource):
             }, 400
 
         customer = Customer().retrieve_customer(email, password)
-        print("CUSTOMER : {}" .format(customer))
         if customer:
             token = Authorization().encode_auth_token(customer['id'],
                                                       email, role)
-            print("TOKEN : {}" .format(token))
             return {
                 'status': 'Success',
                 'message': 'Logged in successfully',
