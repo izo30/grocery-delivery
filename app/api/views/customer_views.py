@@ -170,6 +170,7 @@ class Login(Resource):
         if customer:
             token = Authorization().encode_auth_token(customer['id'],
                                                       email, role)
+            print("TOKEN : {}" .format(token))
             return {
                 'status': 'Success',
                 'message': 'Logged in successfully',
