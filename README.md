@@ -57,7 +57,7 @@ python run.py
 ```
 
 ## Deployment
-The api is deployed on heroku on [THIS](https://groceries-delivery.herokuapp.com/api/ "Heroku Link") link
+The api is deployed on heroku on [THIS](https://grocery-delivery.herokuapp.com/api/ "Heroku Link") link
 
 ## Built with
 Flask, a python framework
